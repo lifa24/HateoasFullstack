@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.domain.Capability;
+import com.example.demo.exceptions.CapabilityException;
 import com.example.demo.repositories.CapabilityRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,8 @@ public class CapabilityService {
     }
 
     public Capability findCapById(Long id){
-        Capability capability = capabilityRepository.findById(id).orElseThrow();
+        return capabilityRepository.findById(id)
+                .orElseThrow(() -> new CapabilityException("Capability with ID: " +id +" Not found"));
 
     }
 }
