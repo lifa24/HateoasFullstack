@@ -54,4 +54,12 @@ public class CapabilityService {
                 }).orElseGet(()-> capabilityRepository.save(capability)
         );
     }
+
+    public void deleteCapability(Long id){
+
+        capabilityRepository.delete(
+                capabilityRepository.findById(id)
+                        .orElseThrow(()-> new CapabilityException("Capability with ID: "+id+" Not found"))
+        );
+    }
 }
