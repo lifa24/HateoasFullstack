@@ -3,6 +3,7 @@ package com.example.demo.resources;
 import com.example.demo.assembler.CapabilityResourceAssembler;
 import com.example.demo.domain.Capability;
 import com.example.demo.services.CapabilityService;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,10 @@ public class CapabilityController {
 
         return new Resources<>(capabilityService.getAllCapabilities().stream()
                 .map(capability -> assembler.toResource(capability))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList()),
+
+                new Link("http://localhost:8080/dashboard").withRel("createCapability")
+                );
 
     }
 
