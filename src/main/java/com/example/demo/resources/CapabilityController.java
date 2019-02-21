@@ -23,6 +23,6 @@ public class CapabilityController {
         Capability capability = capabilityService.findCapById(id);
 
         return new Resource<>(capability,
-                linkTo(methodOn(CapabilityController.class).getCapability(id)).withSelfRel());
+                linkTo(methodOn(CapabilityController.class).getCapability(id)).withRel("getThisCapability"));
     }
 }
