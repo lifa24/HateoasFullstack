@@ -40,6 +40,18 @@ public class CapabilityController {
         Capability capability = capabilityService.findCapById(id);
 
         return new Resource<>(capability,
-                linkTo(methodOn(CapabilityController.class).getCapability(id)).withRel("getThisCapability"));
+                linkTo(methodOn(CapabilityController.class).getCapability(capability.getId())).withRel("getThisCapability"),
+                linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
+        );
+    }
+
+    @PostMapping
+    public Object createCapability(@RequestBody Capability capability){
+        Capability newCapability =  capabilityService.saveCapability(capability);
+
+        return new Resource<>(capability,
+                linkTo(methodOn(CapabilityController.class).getCapability(capability.getId())).withRel("getThisCapability"),
+                linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
+                );
     }
 }
