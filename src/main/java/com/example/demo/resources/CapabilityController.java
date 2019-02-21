@@ -4,8 +4,10 @@ import com.example.demo.domain.Capability;
 import com.example.demo.services.CapabilityService;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,10 +48,14 @@ public class CapabilityController {
     }
 
     @PostMapping
-    public Object createCapability(@RequestBody Capability capability){
+    public Object createCapability(@Valid  @RequestBody Capability capability, BindingResult result){
+
+        if(result.hasErrors())
+            return capabilityService.errorMap(result);
+
         Capability newCapability =  capabilityService.saveCapability(capability);
 
-        return new Resource<>(capability,
+        return new Resource<>(newCapability,
                 linkTo(methodOn(CapabilityController.class).getCapability(capability.getId())).withRel("getThisCapability"),
                 linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
                 );
