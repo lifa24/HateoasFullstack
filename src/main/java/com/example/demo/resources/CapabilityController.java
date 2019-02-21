@@ -56,7 +56,7 @@ public class CapabilityController {
         Capability newCapability =  capabilityService.saveCapability(capability);
 
         return new Resource<>(newCapability,
-                linkTo(methodOn(CapabilityController.class).getCapability(capability.getId())).withRel("getThisCapability"),
+                linkTo(methodOn(CapabilityController.class).getCapability(newCapability.getId())).withRel("getThisCapability"),
                 linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
                 );
     }
