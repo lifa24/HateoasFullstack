@@ -1,5 +1,6 @@
 package com.example.demo.resources;
 
+import com.example.demo.assembler.CapabilityResourceAssembler;
 import com.example.demo.domain.Capability;
 import com.example.demo.services.CapabilityService;
 import org.springframework.hateoas.Resource;
@@ -22,31 +23,26 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 public class CapabilityController {
     private CapabilityService capabilityService;
 
-    public CapabilityController(CapabilityService capabilityService) {
+    private CapabilityResourceAssembler assembler;
+
+    public CapabilityController(CapabilityService capabilityService, CapabilityResourceAssembler assembler) {
         this.capabilityService = capabilityService;
+        this.assembler = assembler;
     }
 
     @GetMapping
     public Resources<Resource<Capability>> getAllCapabilities(){
 
-        List<Resource<Capability>> capabilities = capabilityService.getAllCapabilities().stream()
-                .map(capability -> new Resource<>(capability,
-                        linkTo(methodOn(CapabilityController.class).getCapability(capability.getId())).withRel("getThisCapability"),
-                        linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
-                )).collect(Collectors.toList());
-
-        return new Resources<>(capabilities);
+        return new Resources<>(capabilityService.getAllCapabilities().stream()
+                .map(capability -> assembler.toResource(capability))
+                .collect(Collectors.toList()));
 
     }
 
     @GetMapping("/{id}")
     public Resource<?> getCapability(@PathVariable Long id){
-        Capability capability = capabilityService.findCapById(id);
 
-        return new Resource<>(capability,
-                linkTo(methodOn(CapabilityController.class).getCapability(id)).withRel("getThisCapability"),
-                linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
-        );
+        return new Resource<>(assembler.toResource(capabilityService.findCapById(id)));
     }
 
     @PostMapping
@@ -55,24 +51,14 @@ public class CapabilityController {
         if(result.hasErrors())
             return capabilityService.errorMap(result);
 
-        Capability newCapability =  capabilityService.saveCapability(capability);
-
-        return new Resource<>(newCapability,
-                linkTo(methodOn(CapabilityController.class).getCapability(newCapability.getId())).withRel("getThisCapability"),
-                linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
-                );
+        return new Resource<>(assembler.toResource(capabilityService.saveCapability(capability)));
     }
 
     @PutMapping("/{id}")
     public Object updateCapability(@PathVariable Long id, @Valid @RequestBody Capability capability,BindingResult result){
         if(result.hasErrors()) return capabilityService.errorMap(result);
 
-        Capability capabilityToUpdate = capabilityService.updateCapability(id,capability);
-
-        return new Resource<>(capabilityToUpdate,
-                linkTo(methodOn(CapabilityController.class).getCapability(capabilityToUpdate.getId())).withRel("getThisCapability"),
-                linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
-                );
+        return new Resource<>(assembler.toResource(capabilityService.updateCapability(id,capability)));
     }
 
     @DeleteMapping("/{id}")
