@@ -10,8 +10,8 @@ export const getAllCapabilities = () => async dispatch => {
   });
 };
 
-export const deleteCapability = id => async dispatch => {
-  await axios.delete(`http://localhost:8080/dashboard/${id}`);
+export const deleteCapability = (id, deleteLink) => async dispatch => {
+  await axios.delete(deleteLink);
   dispatch({
     type: DELETE_CAPABILITY,
     payload: id
