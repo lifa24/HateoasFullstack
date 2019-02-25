@@ -11,12 +11,14 @@ class Dashboard extends Component {
   }
 
   render() {
+    const { capabilities } = this.props;
+
     return (
       <React.Fragment>
         <AddButton />
-        <Capability />
-        <Capability />
-        <Capability />
+        {capabilities.map(capability => (
+          <Capability key={capability.id} capability={capability} />
+        ))}
       </React.Fragment>
     );
   }
