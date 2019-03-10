@@ -20,7 +20,7 @@ export class Capability extends Component {
     return (
       <div className="card card-body border-primary mb-3">
         <h4 className="text-primary">
-          {techStack}...{_links.getThisCapability.href}
+          {techStack} ...{_links.getThisCapability.href}
           <i className="fas fa-user-edit ml-2" style={{ color: "blue" }} />
           <i
             className="fas fa-user-times ml-2"
@@ -48,6 +48,11 @@ export class Capability extends Component {
     );
   }
 }
+
+Capability.propTypes = {
+  capability: PropTypes.object.isRequired,
+  deleteCapability: PropTypes.func.isRequired
+};
 
 export default connect(
   null,
