@@ -10,12 +10,14 @@ export const getAllCapabilities = () => async dispatch => {
     const res = await axios.get("http://localhost:8080/dashboard");
     dispatch({
       type: GET_CAPABILITIES,
-      payload: res.data._embedded.capabilityList
+      payload: res.data._embedded.capabilityList,
+      links: res.data._links
     });
   } catch (error) {
     dispatch({
       type: GET_CAPABILITIES,
-      payload: []
+      payload: [],
+      links: {}
     });
   }
 };
