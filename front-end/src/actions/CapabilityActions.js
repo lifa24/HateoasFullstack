@@ -30,8 +30,12 @@ export const deleteCapability = (id, deleteLink) => async dispatch => {
   });
 };
 
-export const addCapability = (capability, closeModal) => async dispatch => {
-  const res = await axios.post("http://localhost:8080/dashboard", capability);
+export const addCapability = (
+  capability,
+  closeModal,
+  postLink
+) => async dispatch => {
+  const res = await axios.post(postLink, capability);
   closeModal();
   dispatch({
     type: ADD_CAPABILITY,

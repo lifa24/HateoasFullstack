@@ -25,7 +25,11 @@ export class AddCapability extends Component {
       numOfAvailableDevelopers
     };
 
-    this.props.addCapability(newCapability, this.props.closeModal);
+    this.props.addCapability(
+      newCapability,
+      this.props.closeModal,
+      this.props.postLink
+    );
   };
 
   render() {
@@ -87,10 +91,18 @@ export class AddCapability extends Component {
 }
 
 AddCapability.propTypes = {
-  addCapability: PropTypes.func.isRequired
+  addCapability: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+  postLink: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+  errors: state.errors,
+  postLink: state.capability.links.createCapability.href
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { addCapability }
 )(AddCapability);
