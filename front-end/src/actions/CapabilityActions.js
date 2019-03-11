@@ -43,6 +43,10 @@ export const addCapability = (
       type: ADD_CAPABILITY,
       payload: res.data
     });
+    dispatch({
+      type: GET_ERRORS,
+      payload: {}
+    });
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
