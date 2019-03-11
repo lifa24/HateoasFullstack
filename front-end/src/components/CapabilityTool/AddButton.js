@@ -42,7 +42,7 @@ export class AddButton extends Component {
               Close Modal
             </button>
 
-            <AddCapability />
+            <AddCapability closeModal={this.closeModal} />
           </Modal>
         </React.Fragment>
       </div>
