@@ -2,7 +2,8 @@ import axios from "axios";
 import {
   GET_CAPABILITIES,
   DELETE_CAPABILITY,
-  ADD_CAPABILITY
+  ADD_CAPABILITY,
+  GET_ERRORS
 } from "./ActionTypes";
 
 export const getAllCapabilities = () => async dispatch => {
@@ -35,10 +36,17 @@ export const addCapability = (
   closeModal,
   postLink
 ) => async dispatch => {
-  const res = await axios.post(postLink, capability);
-  closeModal();
-  dispatch({
-    type: ADD_CAPABILITY,
-    payload: res.data
-  });
+  try {
+    const res = await axios.post(postLink, capability);
+    closeModal();
+    dispatch({
+      type: ADD_CAPABILITY,
+      payload: res.data
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
+    });
+  }
 };

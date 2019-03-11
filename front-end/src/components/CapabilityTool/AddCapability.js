@@ -7,8 +7,8 @@ import { addCapability } from "../../actions/CapabilityActions";
 export class AddCapability extends Component {
   state = {
     techStack: "",
-    numOfDevelopers: "",
-    numOfAvailableDevelopers: "",
+    numOfDevelopers: 0,
+    numOfAvailableDevelopers: 0,
     errors: {}
   };
 
@@ -32,8 +32,14 @@ export class AddCapability extends Component {
     );
   };
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.errors !== prevState.errors) {
+      return { errors: nextProps.errors };
+    }
+  }
+
   render() {
-    const errors = {};
+    const { errors } = this.state;
     return (
       <div className="card mb-3">
         <div className="card-header bg-primary text-light">Add Capability</div>
@@ -94,7 +100,7 @@ AddCapability.propTypes = {
   addCapability: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  postLink: PropTypes.object.isRequired
+  postLink: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
