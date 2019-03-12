@@ -2,7 +2,8 @@ import {
   GET_CAPABILITIES,
   DELETE_CAPABILITY,
   ADD_CAPABILITY,
-  GET_CAPABILITY
+  GET_CAPABILITY,
+  CLEAR_CAPABILITY_CLOSE_MODAL
 } from "../actions/ActionTypes";
 
 const initialState = {
@@ -37,9 +38,15 @@ export default function(state = initialState, action) {
     case GET_CAPABILITY:
       return {
         ...state,
-        capability: state.capability.find(
+        capability: state.capabilities.find(
           capability => capability.id === action.payload
         )
+      };
+
+    case CLEAR_CAPABILITY_CLOSE_MODAL:
+      return {
+        ...state,
+        capability: action.payload
       };
 
     default:

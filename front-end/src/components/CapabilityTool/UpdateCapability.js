@@ -18,6 +18,28 @@ export class UpdateCapability extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  componentWillMount() {
+    this.props.getCapabilityById(this.props.id);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const {
+      id,
+      techStack,
+      numOfDevelopers,
+      numOfAvailableDevelopers,
+      _links
+    } = nextProps.capability;
+
+    this.setState({
+      id,
+      techStack,
+      numOfDevelopers,
+      numOfAvailableDevelopers,
+      _links
+    });
+  }
+
   render() {
     const errors = {};
     return (
