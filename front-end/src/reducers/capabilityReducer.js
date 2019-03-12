@@ -1,7 +1,8 @@
 import {
   GET_CAPABILITIES,
   DELETE_CAPABILITY,
-  ADD_CAPABILITY
+  ADD_CAPABILITY,
+  GET_CAPABILITY
 } from "../actions/ActionTypes";
 
 const initialState = {
@@ -31,6 +32,14 @@ export default function(state = initialState, action) {
       return {
         ...state,
         capabilities: [action.payload, ...state.capabilities]
+      };
+
+    case GET_CAPABILITY:
+      return {
+        ...state,
+        capability: state.capability.find(
+          capability => capability.id === action.payload
+        )
       };
 
     default:

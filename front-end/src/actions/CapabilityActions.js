@@ -3,7 +3,8 @@ import {
   GET_CAPABILITIES,
   DELETE_CAPABILITY,
   ADD_CAPABILITY,
-  GET_ERRORS
+  GET_ERRORS,
+  GET_CAPABILITY
 } from "./ActionTypes";
 
 export const getAllCapabilities = () => async dispatch => {
@@ -53,4 +54,11 @@ export const addCapability = (
       payload: error.response.data
     });
   }
+};
+
+export const getCapabilityById = id => async dispatch => {
+  dispatch({
+    type: GET_CAPABILITY,
+    payload: id
+  });
 };
