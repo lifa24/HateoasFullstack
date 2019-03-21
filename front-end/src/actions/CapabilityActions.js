@@ -5,7 +5,8 @@ import {
   ADD_CAPABILITY,
   GET_ERRORS,
   GET_CAPABILITY,
-  CLEAR_CAPABILITY_CLOSE_MODAL
+  CLEAR_CAPABILITY_CLOSE_MODAL,
+  UPDATE_CAPABILITY
 } from "./ActionTypes";
 
 export const getAllCapabilities = () => async dispatch => {
@@ -69,4 +70,28 @@ export const closeModalClearState = () => async dispatch => {
     type: CLEAR_CAPABILITY_CLOSE_MODAL,
     payload: {}
   });
+};
+
+export const updateCapability = (
+  capability,
+  closeModal,
+  updateLink
+) => async dispatch => {
+  try {
+    const res = await axios.put(updateLink, capability);
+    closeModal();
+    dispatch({
+      type: UPDATE_CAPABILITY,
+      payload: res.data
+    });
+    dispatch({
+      type: GET_ERRORS,
+      payload: {}
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: error.response.data
+    });
+  }
 };
